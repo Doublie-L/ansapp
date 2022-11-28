@@ -8,7 +8,8 @@ import { ModelProviders } from "../common/model.provider/model.provider";
 @Module({
   imports: [DatabaseModule],
   controllers: [UserController],
-  providers: [UserService, ...ModelProviders]
+  providers: [UserService, ...ModelProviders],
+  exports:[UserService]
 })
 export class UserModule {
 }

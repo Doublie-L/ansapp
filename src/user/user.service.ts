@@ -1,14 +1,16 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { Model } from 'mongoose';
-import { userDto } from '../common/dto/user.dto';
-import { UserInterface } from '../common/interface/user.interface';
+import { Inject, Injectable } from "@nestjs/common";
+import { Model } from "mongoose";
+import { userDto } from "../common/dto/user.dto";
+import { UserInterface } from "../common/interface/user.interface";
 
 @Injectable()
 export class UserService {
   constructor(
-    @Inject('UserModel_MODEL')
-    private readonly userModel: Model<UserInterface>,
-  ) {}
+    @Inject("UserModel_MODEL")
+    private readonly userModel: Model<UserInterface>
+  ) {
+  }
+
   //新建用户
   async create(user: userDto): Promise<any> {
     const createdUser = new this.userModel(user);
@@ -16,12 +18,23 @@ export class UserService {
     return this.userModel.find();
   }
 
-  // //删除
-  // async delete(id: string): Promise<any> {
-  //   const res = await this.AdminUserModel.findOne({ _id: id });
-  //   return of(1);
-  // }
-  //
+  //删除
+  async delete(id: string): Promise<any> {
+    const res = await this.userModel.findByIdAndRemove(id);
+    return res;
+  }
+
+  // 修改
+  async edit(user: userDto) {
+    const res = await this.userModel.updateOne({ _id: user._id }, user);
+    return res;
+  }
+
+  // 根据姓名查询
+  async findOne(username: string): Promise<any | undefined> {
+    return this.userModel.findOne({ username });
+  }
+
   // //族谱路径
   // async getNodePath(id: string) {
   //   const res = await this.AdminUserModel.findOne({ _id: id });
