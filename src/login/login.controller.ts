@@ -19,8 +19,20 @@ export class LoginController {
   }
   //通过token获取用户信息
   @UseGuards(JwtAuthGuard)
-  @Get("profile")
+  @Post("profile")
   getProfile(@Request() req) {
-    return req.user;
+    return {
+      msg: req.user,
+      msgCode: 0
+    };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post("profile2")
+  getProfile2(@Request() req) {
+    return {
+      msg: req.user,
+      msgCode: 0
+    };
   }
 }
